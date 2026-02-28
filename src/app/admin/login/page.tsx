@@ -58,7 +58,7 @@ export default function AdminLogin() {
                             required
                             value={email}
                             onChange={e => setEmail(e.target.value)}
-                            placeholder="admin@nalimdheen.com"
+                            placeholder="Enter your admin email"
                             className="w-full px-4 py-3 rounded-lg border border-border bg-secondary/30 focus:bg-background focus:ring-2 ring-primary/20 outline-none transition-all"
                         />
                     </div>
@@ -71,7 +71,7 @@ export default function AdminLogin() {
                                 required
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
-                                placeholder="••••••••"
+                                placeholder="Enter your password"
                                 className="w-full px-4 py-3 rounded-lg border border-border bg-secondary/30 focus:bg-background focus:ring-2 ring-primary/20 outline-none transition-all pr-10"
                             />
                             <button

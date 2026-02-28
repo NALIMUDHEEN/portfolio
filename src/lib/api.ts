@@ -107,66 +107,12 @@ export const api = {
                     return
                 }
 
-                // Initial Seed
-                const seedItems: PortfolioItem[] = [
-                    {
-                        id: 1,
-                        title: "Brand Identity Design",
-                        category: "Graphic Design",
-                        image: "https://placehold.co/600x400/e2e8f0/1e293b?text=Brand+Identity",
-                        description: "Complete branding package for a local startup.",
-                        order: 1,
-                        isFeatured: true,
-                        isHidden: false,
-                        slug: "brand-identity",
-                        tools: ["Illustrator", "Photoshop"],
-                        images: ["https://placehold.co/600x400/e2e8f0/1e293b?text=Gallery+1"]
-                    },
-                    {
-                        id: 2,
-                        title: "Promotional Reel",
-                        category: "Video Editing",
-                        image: "https://placehold.co/600x400/e2e8f0/1e293b?text=Promo+Reel",
-                        description: "High-energy promotional video for an event.",
-                        order: 2,
-                        isFeatured: true,
-                        isHidden: false,
-                        slug: "promo-reel",
-                        tools: ["Premiere Pro", "After Effects"],
-                        images: [],
-                        videoUrl: "https://youtube.com/watch?v=mock"
-                    },
-                    {
-                        id: 3,
-                        title: "Event Photography",
-                        category: "Photography",
-                        image: "https://placehold.co/600x400/e2e8f0/1e293b?text=Event+Photo",
-                        description: "Capturing moments at the annual cultural fest.",
-                        order: 3,
-                        isFeatured: false,
-                        isHidden: false,
-                        slug: "event-photo",
-                        tools: ["Lightroom", "Camera"],
-                        images: ["https://placehold.co/600x400/e2e8f0/1e293b?text=Photo+1"]
-                    },
-                    // Dummy Items for Visual Grid
-                    ...Array.from({ length: 15 }).map((_, i) => ({
-                        id: i + 4,
-                        title: `Visual Study ${i + 1}`,
-                        category: ["Graphic Design", "Photography", "Video Editing", "Social Media"][i % 4],
-                        image: `https://placehold.co/600x600/${['fbbf24', 'f87171', '60a5fa', '34d399'][i % 4]}/ffffff?text=Work+${i + 1}`,
-                        description: "Experimental visual work exploring composition and color theory in modern aesthetics.",
-                        order: i + 4,
-                        isFeatured: false,
-                        isHidden: false,
-                        slug: `visual-study-${i + 1}`,
-                        tools: ["Photoshop", "Illustrator"],
-                        images: []
-                    }))
-                ]
+                // Initial Seed - Empty for production
+                const seedItems: PortfolioItem[] = []
 
+                // Save empty seed to storage
                 localStorage.setItem(STORAGE_KEYS.PORTFOLIO, JSON.stringify(seedItems))
-                setTimeout(() => resolve(seedItems), 500)
+                setTimeout(() => resolve(seedItems), 300)
             })
         },
         create: async (item: Omit<PortfolioItem, 'id'>) => {
