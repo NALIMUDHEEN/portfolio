@@ -109,13 +109,6 @@ export default function AdminLogin() {
                         )}
                     </button>
                 </form>
-
-                <div className="mt-8 text-center">
-                    <p className="text-xs text-muted-foreground">
-                        Default Credentials: <br />
-                        <span className="font-mono bg-secondary px-1 rounded">admin@nalimdheen.com</span> / <span className="font-mono bg-secondary px-1 rounded">admin123</span>
-                    </p>
-                </div>
             </motion.div>
         </div>
     )
