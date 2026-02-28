@@ -172,9 +172,9 @@ export const api = {
     },
     storage: {
         uploadImage: async (file: File): Promise<string> => {
-            // Check file size (Limit to 500KB for localStorage)
-            if (file.size > 500 * 1024) {
-                throw new Error("File too large. Max 500KB allowed for demo.")
+            // Check file size (Limit to 5MB for localStorage)
+            if (file.size > 5 * 1024 * 1024) {
+                throw new Error("File too large. Max 5MB allowed for local browser storage.")
             }
 
             // Converts file to Base64 for localized storage (Not recommended for prod but perfect for this demo)

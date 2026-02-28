@@ -555,7 +555,7 @@ export default function PortfolioAdmin() {
                                             </div>
                                             <div>
                                                 <p className="font-bold">Click to upload image</p>
-                                                <p className="text-xs text-muted-foreground mt-1">SVG, PNG, JPG or GIF (max. 500KB)</p>
+                                                <p className="text-xs text-muted-foreground mt-1">SVG, PNG, JPG or GIF (max. 5MB)</p>
                                             </div>
                                         </div>
                                     )}
