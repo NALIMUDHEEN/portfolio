@@ -60,13 +60,11 @@
 }
 
 .dark {
-  --background: #020617;
-  /* Slate 950 */
+  --background: #000000;
   --foreground: #f8fafc;
-  /* Slate 50 */
-  --card: #020617;
+  --card: #000000;
   --card-foreground: #f8fafc;
-  --popover: #020617;
+  --popover: #000000;
   --popover-foreground: #f8fafc;
   --primary: #3b82f6;
   /* Blue 500 */

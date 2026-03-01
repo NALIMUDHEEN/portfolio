@@ -125,12 +125,12 @@ export default function Hero() {
                     </motion.h2>
                 </div>
 
-                <div className="overflow-hidden pb-4">
+                <div className="overflow-hidden pb-4 w-full">
                     <motion.div
                         variants={itemVariants}
                         animate={floatingAnimation}
                     >
-                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 select-none drop-shadow-sm leading-[0.9] max-w-4xl mx-auto uppercase">
+                        <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 select-none drop-shadow-sm leading-[0.9] w-full mx-auto uppercase break-words sm:break-normal">
                             Nalimudheen
                         </h1>
                     </motion.div>

@@ -26,7 +26,7 @@ export default function BackgroundAnimation() {
     return (
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
             {/* Base Background - Keeps it clean */}
-            <div className="absolute inset-0 bg-white dark:bg-[#020617]" />
+            <div className="absolute inset-0 bg-white dark:bg-black" />
 
             {/* Very Subtle Dot Grid */}
             <div
@@ -49,7 +49,7 @@ export default function BackgroundAnimation() {
                     repeat: Infinity,
                     ease: "easeInOut",
                 }}
-                className="absolute top-[10%] left-[15%] w-[50%] h-[50%] rounded-full bg-primary/3 blur-[120px]"
+                className="absolute top-[10%] left-[15%] w-[50%] h-[50%] rounded-full bg-primary/3 dark:bg-white/5 blur-[120px]"
             />
 
             <motion.div
@@ -63,7 +63,7 @@ export default function BackgroundAnimation() {
                     repeat: Infinity,
                     ease: "easeInOut",
                 }}
-                className="absolute bottom-[5%] right-[10%] w-[60%] h-[60%] rounded-full bg-blue-500/3 blur-[150px] dark:bg-blue-400/5"
+                className="absolute bottom-[5%] right-[10%] w-[60%] h-[60%] rounded-full bg-blue-500/3 blur-[150px] dark:bg-white/5"
             />
 
             {/* Floating "Antigravity" Particles */}
