@@ -44,11 +44,15 @@ export interface SiteSettings {
 export const api = {
     hero: {
         get: async (): Promise<HeroSettings> => {
+            const defaults: HeroSettings = { textColor: "#0f172a", backgroundImage: null }
             const { data, error } = await supabase.from('hero_settings').select('*').eq('id', 1).single()
+
             if (error || !data) {
-                return { textColor: "#0f172a", backgroundImage: null }
+                return defaults
             }
-            return data as HeroSettings
+
+            const cleanData = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != null))
+            return { ...defaults, ...cleanData } as HeroSettings
         },
         update: async (settings: HeroSettings) => {
             const { error } = await supabase.from('hero_settings').update(settings).eq('id', 1)
@@ -81,7 +85,8 @@ export const api = {
                 return defaults
             }
 
-            return { ...defaults, ...data } as SiteSettings
+            const cleanData = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != null))
+            return { ...defaults, ...cleanData } as unknown as SiteSettings
         },
         update: async (settings: SiteSettings) => {
             const { error } = await supabase.from('site_settings').update(settings).eq('id', 1)
