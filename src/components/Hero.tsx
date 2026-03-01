@@ -97,7 +97,7 @@ export default function Hero() {
 
     return (
         <section
-            className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden transition-colors duration-700 text-foreground"
+            className="relative w-full min-h-[700px] h-[100svh] flex flex-col items-center justify-between overflow-hidden transition-colors duration-700 text-foreground pt-24 pb-8 md:pb-12"
             style={{
                 color: settings.backgroundImage ? settings.textColor : undefined,
                 backgroundImage: settings.backgroundImage ? `url(${settings.backgroundImage})` : 'none',
@@ -110,11 +110,15 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-black/20 z-0" />
             )}
 
+            {/* Spacer for top */}
+            <div className="w-full flex-none h-4" />
+
+            {/* Main Content Box */}
             <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="container px-4 md:px-6 flex flex-col items-center text-center z-10 pb-20 -translate-y-12 md:translate-y-0"
+                className="container px-4 md:px-6 flex-1 flex flex-col items-center justify-center text-center z-10 w-full"
             >
                 <div className="overflow-hidden mb-4">
                     <motion.h2
@@ -160,26 +164,26 @@ export default function Hero() {
                     <p>Professional Graphic Designer and Visual Media Specialist based in Malappuram, Kerala.</p>
                 </div>
 
-                {/* Subtle Scroll Indicator */}
-                <motion.div
-                    variants={{
-                        hidden: { opacity: 0 },
-                        visible: { opacity: 1, transition: { delay: 2, duration: 1.5 } }
-                    }}
-                    className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
-                >
-                    <span className="text-[10px] uppercase tracking-[0.6em] font-medium opacity-30">Scroll Down</span>
-                    <div className="relative w-[2px] h-24 bg-foreground/5 overflow-hidden">
-                        <motion.div
-                            animate={{ y: [-96, 96] }}
-                            transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-                            className="absolute inset-0 w-full h-full bg-gradient-to-b from-transparent via-primary/50 to-transparent"
-                        />
-                    </div>
-                </motion.div>
+            </motion.div>
+
+            {/* Subtle Scroll Indicator */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2, duration: 1.5 }}
+                className="flex flex-col items-center gap-4 z-10 pointer-events-none mt-4 flex-none"
+            >
+                <span className="text-[10px] uppercase tracking-[0.6em] font-medium opacity-30">Scroll Down</span>
+                <div className="relative w-[2px] h-12 md:h-16 bg-foreground/5 overflow-hidden">
+                    <motion.div
+                        animate={{ y: [-64, 64] }}
+                        transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+                        className="absolute inset-0 w-full h-full bg-gradient-to-b from-transparent via-primary/50 to-transparent"
+                    />
+                </div>
             </motion.div>
 
             <BackgroundAnimation />
-        </section>
+        </section >
     )
 }
