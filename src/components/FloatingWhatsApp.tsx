@@ -35,6 +35,7 @@ export default function FloatingWhatsApp() {
                             href={`tel:+91${phoneNumber}`}
                             className="w-72 sm:w-80 bg-zinc-800 text-white px-5 py-3 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all flex items-center justify-between cursor-pointer"
                         >
+                            <span className="font-semibold text-sm tracking-wide shrink-0">+91 {phoneNumber}</span>
                             <div className="bg-white/20 p-2 rounded-full shrink-0">
                                 <Phone className="w-5 h-5" />
                             </div>
