@@ -101,14 +101,14 @@ export default function PortfolioGrid() {
                 </motion.div>
 
                 {/* Filter System */}
-                <div className="flex justify-center gap-2 mb-16 overflow-x-auto pb-4 no-scrollbar">
-                    <div className="flex gap-2 p-1 bg-secondary/50 backdrop-blur-sm rounded-full border border-border">
+                <div className="flex justify-start md:justify-center gap-2 mb-16 overflow-x-auto pb-4 no-scrollbar w-full">
+                    <div className="flex gap-2 p-1 bg-secondary/50 backdrop-blur-sm rounded-full border border-border min-w-max mx-auto md:mx-0">
                         {categories.map((cat) => (
                             <button
                                 key={cat}
                                 onClick={() => setActiveCategory(cat)}
                                 className={cn(
-                                    "px-6 py-2 rounded-full text-sm font-medium transition-all duration-300",
+                                    "px-4 py-1.5 md:px-6 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 whitespace-nowrap",
                                     activeCategory === cat
                                         ? "bg-primary text-primary-foreground shadow-lg scale-105"
                                         : "text-muted-foreground hover:text-foreground hover:bg-secondary"

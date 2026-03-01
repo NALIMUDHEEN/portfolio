@@ -97,9 +97,9 @@ export default function Hero() {
 
     return (
         <section
-            className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden transition-colors duration-700"
+            className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden transition-colors duration-700 text-foreground"
             style={{
-                color: settings.textColor,
+                color: settings.backgroundImage ? settings.textColor : undefined,
                 backgroundImage: settings.backgroundImage ? `url(${settings.backgroundImage})` : 'none',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'
