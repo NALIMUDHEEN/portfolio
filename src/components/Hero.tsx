@@ -6,12 +6,12 @@ import BackgroundAnimation from "./BackgroundAnimation"
 import { api } from "@/lib/api"
 
 const roles = [
-    "Graphic Designer",
-    "Video Editor",
-    "Motion Graphics Designer",
-    "Photographer",
-    "Videographer",
-    "Social Media Handler",
+    "Graphic Design",
+    "Video Editing",
+    "Motion Graphics",
+    "Photography",
+    "Videography",
+    "Social Media Management",
 ]
 
 export default function Hero() {
@@ -114,7 +114,7 @@ export default function Hero() {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="container px-4 md:px-6 flex flex-col items-center text-center z-10 pb-40 md:pb-20"
+                className="container px-4 md:px-6 flex flex-col items-center text-center z-10 pb-20 -translate-y-12 md:translate-y-0"
             >
                 <div className="overflow-hidden mb-4">
                     <motion.h2
@@ -140,7 +140,7 @@ export default function Hero() {
                     variants={itemVariants}
                     className="h-16 md:h-20 flex flex-col items-center justify-center gap-1"
                 >
-                    <span className="text-lg md:text-xl font-light opacity-60">Professional</span>
+                    <span className="text-lg md:text-xl font-light opacity-60">I do</span>
                     <div className="text-3xl md:text-5xl font-semibold tracking-tight italic min-h-[1.2em] flex items-center">
                         <span>{displayText}</span>
                         <motion.span
@@ -155,7 +155,7 @@ export default function Hero() {
                 <div className="sr-only">
                     <h1>Nalimudheen Wafy – Graphic Designer, Photographer and Media Coordinator in Kerala</h1>
                     {roles.map((role) => (
-                        <span key={role}>I'm a {role}. </span>
+                        <span key={role}>I do {role}. </span>
                     ))}
                     <p>Professional Graphic Designer and Visual Media Specialist based in Malappuram, Kerala.</p>
                 </div>
