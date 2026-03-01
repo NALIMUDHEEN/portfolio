@@ -11,7 +11,7 @@ export default function FloatingWhatsApp() {
     // 📞 CONTACT CONFIGURATION
     // ---------------------------------------------------------
     const phoneNumber = "7907730393" // Your WhatsApp/Phone number
-    const email = "nalimdheenwafy@gmail.com" // Your Email address
+    const email = "nalimayp50@gmail.com" // Your Email address
 
     const message = "Hi, I'm interested in working with you!"
 
@@ -33,10 +33,9 @@ export default function FloatingWhatsApp() {
                             exit="hidden"
                             transition={{ delay: 0.2 }}
                             href={`tel:+91${phoneNumber}`}
-                            className="w-72 sm:w-80 bg-zinc-800 dark:bg-zinc-200 dark:text-zinc-900 text-white px-5 py-3 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all flex items-center justify-between cursor-pointer"
+                            className="w-72 sm:w-80 bg-zinc-800 text-white px-5 py-3 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all flex items-center justify-between cursor-pointer"
                         >
-                            <span className="font-semibold text-sm tracking-wide shrink-0">+91 {phoneNumber}</span>
-                            <div className="bg-white/20 dark:bg-black/10 p-2 rounded-full shrink-0">
+                            <div className="bg-white/20 p-2 rounded-full shrink-0">
                                 <Phone className="w-5 h-5" />
                             </div>
                         </motion.a>
