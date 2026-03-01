@@ -175,7 +175,7 @@ export default function PortfolioAdmin() {
 
         const finalItem = {
             ...newItem,
-            image: newItem.image || (newItem.videoUrl ? api.utils.getYouTubeThumbnail(newItem.videoUrl) : ""),
+            image: newItem.image || (newItem.videoUrl ? (api.utils.getYouTubeThumbnail(newItem.videoUrl) || "") : ""),
             order: items.length,
             slug: newItem.title?.toLowerCase().replace(/ /g, '-'),
             tools: newItem.tools || [],
@@ -184,11 +184,18 @@ export default function PortfolioAdmin() {
             description: newItem.description || ""
         }
 
-        await api.portfolio.create(finalItem as any)
+        setIsAdding(false) // Temporarily close while loading
+
+        const res = await api.portfolio.create(finalItem as any)
+
+        if (!res.success) {
+            alert(`Failed to create project: ${res.error}`)
+            setIsAdding(true) // Re-open if failed
+            return
+        }
 
         const data = await api.portfolio.list()
         setItems(data)
-        setIsAdding(false)
         setShowError(false)
         setNewItem({
             title: "",
@@ -205,7 +212,12 @@ export default function PortfolioAdmin() {
     const handleDelete = async (id: number) => {
         if (!confirm("Are you sure you want to delete this project?")) return
 
-        await api.portfolio.delete(id)
+        const res = await api.portfolio.delete(id)
+        if (!res.success) {
+            alert(`Failed to delete project: ${res.error}`)
+            return
+        }
+
         setItems(prev => prev.filter(i => i.id !== id))
         if (editingItem?.id === id) setEditingItem(null)
     }
@@ -213,7 +225,12 @@ export default function PortfolioAdmin() {
     const saveEdit = async () => {
         if (!editingItem) return
 
-        await api.portfolio.update(editingItem)
+        const res = await api.portfolio.update(editingItem)
+        if (!res.success) {
+            alert(`Failed to save changes: ${res.error}`)
+            return
+        }
+
         setItems(prev => prev.map(i => i.id === editingItem.id ? editingItem : i))
         setEditingItem(null)
     }
@@ -222,7 +239,12 @@ export default function PortfolioAdmin() {
         if (!confirm("⚠️ DANGER: This will delete ALL portfolio projects. This cannot be undone!")) return
         if (!confirm("Are you absolutely sure? This will wipe your entire portfolio and start fresh.")) return
 
-        await api.portfolio.clearAll()
+        const res = await api.portfolio.clearAll()
+        if (!res.success) {
+            alert(`Failed to clear portfolio: ${res.error}`)
+            return
+        }
+
         setItems([])
         setEditingItem(null)
     }
