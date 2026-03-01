@@ -114,12 +114,12 @@ export default function Hero() {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="container px-4 md:px-6 flex flex-col items-center text-center z-10 pb-20 -translate-y-8 md:-translate-y-12 lg:-translate-y-16"
+                className="container px-4 md:px-6 flex flex-col items-center text-center z-10 pb-40 md:pb-20"
             >
                 <div className="overflow-hidden mb-4">
                     <motion.h2
                         variants={itemVariants}
-                        className="text-sm md:text-base font-medium tracking-[0.5em] uppercase opacity-60 mb-2"
+                        className="text-[10px] sm:text-xs md:text-sm font-medium tracking-[0.3em] sm:tracking-[0.5em] uppercase opacity-60 mb-2 mx-auto max-w-[90vw]"
                     >
                         8 Years of designing experience
                     </motion.h2>

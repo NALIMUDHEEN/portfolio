@@ -6,26 +6,6 @@ import { motion, AnimatePresence } from "framer-motion"
 
 export default function FloatingWhatsApp() {
     const [isOpen, setIsOpen] = useState(false)
-    const menuRef = useRef<HTMLDivElement>(null)
-
-    // Close menu when clicking outside
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent | TouchEvent) {
-            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-                setIsOpen(false)
-            }
-        }
-
-        if (isOpen) {
-            document.addEventListener("mousedown", handleClickOutside)
-            document.addEventListener("touchstart", handleClickOutside)
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside)
-            document.removeEventListener("touchstart", handleClickOutside)
-        }
-    }, [isOpen])
 
     // ---------------------------------------------------------
     // 📞 CONTACT CONFIGURATION
@@ -39,6 +19,20 @@ export default function FloatingWhatsApp() {
         hidden: { opacity: 0, y: 20, scale: 0.8 },
         visible: { opacity: 1, y: 0, scale: 1 }
     }
+
+    const menuRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsOpen(false)
+            }
+        }
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside)
+        }
+        return () => document.removeEventListener("mousedown", handleClickOutside)
+    }, [isOpen])
 
     return (
         <div ref={menuRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
