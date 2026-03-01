@@ -26,7 +26,7 @@ export default function BackgroundAnimation() {
     return (
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
             {/* Base Background - Keeps it clean */}
-            <div className="absolute inset-0 bg-white dark:bg-black" />
+            <div className="absolute inset-0 bg-background" />
 
             {/* Very Subtle Dot Grid */}
             <div
