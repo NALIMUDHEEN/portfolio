@@ -114,7 +114,7 @@ export default function Hero() {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="container px-4 md:px-6 flex flex-col items-center text-center z-10 pb-20"
+                className="container px-4 md:px-6 flex flex-col items-center text-center z-10 pb-20 -translate-y-8 md:-translate-y-12 lg:-translate-y-16"
             >
                 <div className="overflow-hidden mb-4">
                     <motion.h2

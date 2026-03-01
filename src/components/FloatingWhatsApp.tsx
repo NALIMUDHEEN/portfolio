@@ -1,11 +1,31 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { MessageCircle, Send, Mail, X, Phone } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function FloatingWhatsApp() {
     const [isOpen, setIsOpen] = useState(false)
+    const menuRef = useRef<HTMLDivElement>(null)
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent | TouchEvent) {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsOpen(false)
+            }
+        }
+
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside)
+            document.addEventListener("touchstart", handleClickOutside)
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+            document.removeEventListener("touchstart", handleClickOutside)
+        }
+    }, [isOpen])
 
     // ---------------------------------------------------------
     // 📞 CONTACT CONFIGURATION
@@ -21,7 +41,7 @@ export default function FloatingWhatsApp() {
     }
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        <div ref={menuRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
             <AnimatePresence>
                 {isOpen && (
                     <div className="flex flex-col items-end gap-3 mb-2">
