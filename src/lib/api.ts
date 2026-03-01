@@ -1,4 +1,4 @@
-import { supabase, mockPortfolio } from './supabase'
+import { supabase } from './supabase'
 
 // Types
 export interface PortfolioItem {
@@ -30,40 +30,32 @@ export interface SiteSettings {
     visualTitle: string
     showFeatured: boolean
     showVisual: boolean
-    // SEO Settings
     seoTitle: string
     metaDescription: string
     ogTitle: string
     ogDescription: string
     ogImage: string
-    // Local SEO Section
     showLocalSEO: boolean
     localSEOContentEn: string
     localSEOContentMl: string
-}
-
-const STORAGE_KEYS = {
-    PORTFOLIO: 'portfolio_items_v1',
-    HERO: 'hero_settings_v1',
-    SETTINGS: 'site_settings_v1'
 }
 
 // Data Handling Service
 export const api = {
     hero: {
         get: async (): Promise<HeroSettings> => {
-            if (typeof window === 'undefined') return { textColor: "#0f172a", backgroundImage: null }
-
-            const stored = localStorage.getItem(STORAGE_KEYS.HERO)
-            if (stored) return JSON.parse(stored)
-
-            return {
-                textColor: "#0f172a",
-                backgroundImage: null
+            const { data, error } = await supabase.from('hero_settings').select('*').eq('id', 1).single()
+            if (error || !data) {
+                return { textColor: "#0f172a", backgroundImage: null }
             }
+            return data as HeroSettings
         },
         update: async (settings: HeroSettings) => {
-            localStorage.setItem(STORAGE_KEYS.HERO, JSON.stringify(settings))
+            const { error } = await supabase.from('hero_settings').update(settings).eq('id', 1)
+            if (error) {
+                console.error("Error updating hero settings:", error)
+                return { success: false, error: error.message }
+            }
             return { success: true }
         }
     },
@@ -84,100 +76,110 @@ export const api = {
                 localSEOContentMl: "കേരളത്തിൽ വിദ്യാഭ്യാസ സ്ഥാപനങ്ങൾക്കും ബിസിനസുകൾക്കും വേണ്ടിയുള്ള ഗ്രാഫിക് ഡിസൈൻ, ഫോട്ടോഗ്രഫി, വീഡിയോ ഗ്രാഫി, ബ്രാൻഡിംഗ്, സോഷ്യൽ മീഡിയ മാനേജ്മെന്റ് സേവനങ്ങൾ ഞാൻ നൽകുന്നു."
             }
 
-            if (typeof window === 'undefined') return defaults
+            const { data, error } = await supabase.from('site_settings').select('*').eq('id', 1).single()
+            if (error || !data) {
+                return defaults
+            }
 
-            const stored = localStorage.getItem(STORAGE_KEYS.SETTINGS)
-            if (stored) return { ...defaults, ...JSON.parse(stored) }
-
-            return defaults
+            return { ...defaults, ...data } as SiteSettings
         },
         update: async (settings: SiteSettings) => {
-            localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings))
+            const { error } = await supabase.from('site_settings').update(settings).eq('id', 1)
+            if (error) {
+                console.error("Error updating site settings:", error)
+                return { success: false, error: error.message }
+            }
             return { success: true }
         }
     },
     portfolio: {
         list: async (): Promise<PortfolioItem[]> => {
-            if (typeof window === 'undefined') return []
+            const { data, error } = await supabase
+                .from('portfolio')
+                .select('*')
+                .order('order', { ascending: true })
 
-            return new Promise((resolve) => {
-                const stored = localStorage.getItem(STORAGE_KEYS.PORTFOLIO)
-                if (stored) {
-                    setTimeout(() => resolve(JSON.parse(stored)), 300) // Simulate network
-                    return
-                }
-
-                // Initial Seed - Empty for production
-                const seedItems: PortfolioItem[] = []
-
-                // Save empty seed to storage
-                localStorage.setItem(STORAGE_KEYS.PORTFOLIO, JSON.stringify(seedItems))
-                setTimeout(() => resolve(seedItems), 300)
-            })
+            if (error) {
+                console.error("Error fetching portfolio:", error)
+                return []
+            }
+            return data as PortfolioItem[]
         },
         create: async (item: Omit<PortfolioItem, 'id'>) => {
-            try {
-                const stored = localStorage.getItem(STORAGE_KEYS.PORTFOLIO)
-                const items: PortfolioItem[] = stored ? JSON.parse(stored) : []
+            // Get highest order to append to end
+            const { data: currentItems } = await supabase.from('portfolio').select('order').order('order', { ascending: false }).limit(1)
+            const newOrder = (currentItems && currentItems.length > 0) ? (currentItems[0].order + 1) : 0
 
-                const newItem = {
-                    ...item,
-                    id: Date.now() // Simple ID generation
-                }
+            const { data, error } = await supabase
+                .from('portfolio')
+                .insert([{ ...item, order: newOrder }])
+                .select()
+                .single()
 
-                const updatedItems = [newItem, ...items]
-                localStorage.setItem(STORAGE_KEYS.PORTFOLIO, JSON.stringify(updatedItems))
-                return { success: true, data: newItem }
-            } catch (error) {
-                console.error("Storage Error:", error)
-                return { success: false, error: "Storage full. Please delete items or use smaller images." }
+            if (error) {
+                console.error("Error creating portfolio item:", error)
+                return { success: false, error: error.message }
             }
+            return { success: true, data: data as PortfolioItem }
         },
         update: async (item: PortfolioItem) => {
-            try {
-                const stored = localStorage.getItem(STORAGE_KEYS.PORTFOLIO)
-                if (!stored) return { success: false }
+            const { error } = await supabase
+                .from('portfolio')
+                .update(item)
+                .eq('id', item.id)
 
-                const items: PortfolioItem[] = JSON.parse(stored)
-                const updatedItems = items.map(i => i.id === item.id ? item : i)
-
-                localStorage.setItem(STORAGE_KEYS.PORTFOLIO, JSON.stringify(updatedItems))
-                return { success: true }
-            } catch (error) {
-                return { success: false, error: "Storage full." }
+            if (error) {
+                console.error("Error updating portfolio item:", error)
+                return { success: false, error: error.message }
             }
-        },
-        delete: async (id: number) => {
-            try {
-                const stored = localStorage.getItem(STORAGE_KEYS.PORTFOLIO)
-                if (!stored) return { success: false }
-
-                const items: PortfolioItem[] = JSON.parse(stored)
-                const updatedItems = items.filter(i => i.id !== id)
-
-                localStorage.setItem(STORAGE_KEYS.PORTFOLIO, JSON.stringify(updatedItems))
-                return { success: true }
-            } catch (error) {
-                return { success: false, error: "Failed to delete item." }
-            }
-        },
-        reorder: async (items: PortfolioItem[]) => {
-            localStorage.setItem(STORAGE_KEYS.PORTFOLIO, JSON.stringify(items))
             return { success: true }
         },
+        delete: async (id: number) => {
+            const { error } = await supabase
+                .from('portfolio')
+                .delete()
+                .eq('id', id)
+
+            if (error) {
+                console.error("Error deleting portfolio item:", error)
+                return { success: false, error: error.message }
+            }
+            return { success: true }
+        },
+        reorder: async (items: PortfolioItem[]) => {
+            // Supabase doesn't have a bulk update out of the box in the JS client without RPC.
+            // We will loop through and update them individually for this simple use case.
+            let success = true
+            for (const item of items) {
+                const { error } = await supabase
+                    .from('portfolio')
+                    .update({ order: item.order })
+                    .eq('id', item.id)
+                if (error) {
+                    console.error("Error reordering item", item.id, error)
+                    success = false
+                }
+            }
+            return { success }
+        },
         clearAll: async () => {
-            localStorage.setItem(STORAGE_KEYS.PORTFOLIO, JSON.stringify([]))
+            // Delete all where id is not null (deletes everything)
+            const { error } = await supabase.from('portfolio').delete().neq('id', 0)
+            if (error) {
+                console.error("Error clearing portfolio:", error)
+                return { success: false, error: error.message }
+            }
             return { success: true }
         }
     },
     storage: {
         uploadImage: async (file: File): Promise<string> => {
-            // Check file size (Limit to 5MB for localStorage)
+            // Check file size (Limit to 5MB for base64 storage in DB)
             if (file.size > 5 * 1024 * 1024) {
-                throw new Error("File too large. Max 5MB allowed for local browser storage.")
+                throw new Error("File too large. Max 5MB allowed for database storage.")
             }
 
-            // Converts file to Base64 for localized storage (Not recommended for prod but perfect for this demo)
+            // Converts file to Base64 for localized storage
             return new Promise((resolve, reject) => {
                 const reader = new FileReader()
                 reader.onloadend = () => resolve(reader.result as string)
