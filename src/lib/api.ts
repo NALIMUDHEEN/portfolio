@@ -89,7 +89,8 @@ export const api = {
             return { ...defaults, ...cleanData } as unknown as SiteSettings
         },
         update: async (settings: SiteSettings) => {
-            const { error } = await supabase.from('site_settings').update(settings).eq('id', 1)
+            const { id, created_at, ...updatePayload } = settings as any;
+            const { error } = await supabase.from('site_settings').update(updatePayload).eq('id', 1)
             if (error) {
                 console.error("Error updating site settings:", error)
                 return { success: false, error: error.message }
@@ -128,16 +129,19 @@ export const api = {
             return { success: true, data: data as PortfolioItem }
         },
         update: async (item: PortfolioItem) => {
+            // Strip out properties that shouldn't/can't be updated directly
+            const { id, created_at, ...updatePayload } = item as any;
+
             const { error } = await supabase
                 .from('portfolio')
-                .update(item)
+                .update(updatePayload)
                 .eq('id', item.id)
 
             if (error) {
                 console.error("Error updating portfolio item:", error)
                 return { success: false, error: error.message }
             }
-            return { success: true }
+            return { success: true, data: item }
         },
         delete: async (id: number) => {
             const { error } = await supabase
